@@ -5,20 +5,13 @@ chrome.extension.sendRequest({
 
   $('textarea').dblclick(function() {
     $this = $(this);
-    $.ajax({
-      url: 'http://localhost:9292/edit',
-      data: $this.val(),
-      type: 'POST',
-      dataType: 'json',
-      contentType: 'applicatioin/json',
-      success: function(xhr) {
-        if (xhr.status == 'quit') {
-          $this.val(xhr.data);
-        } else if (xhr.status == 'save') {
-          $this.val(xhr.data);
-          // continue poling
-        }
-      }
-    });
+    var ws = new WebSocket("ws://localhost:51234");
+    ws.onopen = function() {
+      ws.send($this.val());
+    };
+    ws.onmessage = function(event) {
+      var data = JSON.parse(event.data);
+      $this.val(data.text);
+    };
   });
 });
