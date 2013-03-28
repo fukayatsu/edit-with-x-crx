@@ -3,6 +3,8 @@ require 'tempfile'
 require 'json'
 require 'em-websocket'
 
+Encoding.default_external = "UTF-8"
+
 Process.daemon if ARGV[0] == "-d"
 
 pid = 0
