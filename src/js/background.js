@@ -8,7 +8,7 @@
   chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     if (request.method == "getSetting") {
       var setting = localStorage.getItem('setting');
-      sendResponse({data: setting});
+      sendResponse({data: JSON.parse(setting)});
     } else {
       sendResponse({});
     }
