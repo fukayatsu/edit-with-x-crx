@@ -6,6 +6,7 @@ require 'em-websocket'
 Process.daemon if ARGV[0] == "-d"
 
 pid = 0
+text = ""
 
 EM.run {
   EM::WebSocket.run(:host => "0.0.0.0", :port => 51234) do |ws|
@@ -26,10 +27,18 @@ EM.run {
         ws.send({ method: 'inited', tempfile: temp.path }.to_json)
         temp.close false
       when 'watch'
+        new_text = File.open(data['tempfile']).read
+
+        if (new_text == text)
+          ws.send({ method: 'watched', tempfile: data['tempfile']}.to_json)
+        else
+          text = new_text
+          ws.send({ method: 'watched', tempfile: data['tempfile'], text: text}.to_json)
+        end
+
+        # プロセスの生存チェック
         begin
           Process.getpgid(pid)
-          text = File.open(data['tempfile']).read
-          ws.send({ method: 'watched', tempfile: data['tempfile'], text: text}.to_json)
         rescue
           Process.detach(pid)
           Process.kill(:INT, pid)

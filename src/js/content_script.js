@@ -25,7 +25,9 @@ chrome.extension.sendRequest({
         }));
         break;
       case 'watched':
-        $this.val(data.text);
+        if (data.text) {
+          $this.val(data.text);
+        }
 
         setTimeout(function() {
           ws.send(JSON.stringify({
