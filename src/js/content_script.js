@@ -42,11 +42,11 @@ chrome.extension.sendRequest({
 }, function(response) {
   var setting = response.data;
 
-  $('textarea').dblclick(function() {
+  $(document).on('dblclick', 'textarea', function() {
     setWSEvent($(this), setting);
   });
 
-  $('textarea').on('keydown', function(e) {
+  $(document).on('keydown', 'textarea', function(e) {
     if (eval(setting.shortcut)) {
       e.preventDefault();
       setWSEvent($(this), setting);
