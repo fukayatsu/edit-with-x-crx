@@ -42,14 +42,18 @@ chrome.extension.sendRequest({
 }, function(response) {
   var setting = response.data;
 
-  $(document).on('dblclick', 'textarea', function() {
-    setWSEvent($(this), setting);
-  });
-
-  $(document).on('keydown', 'textarea', function(e) {
-    if (eval(setting.shortcut)) {
-      e.preventDefault();
+  if (setting.double_click) {
+    $(document).on('dblclick', 'textarea', function() {
       setWSEvent($(this), setting);
-    }
-  });
+    });
+  }
+
+  if (setting.shortcut) {
+    $(document).on('keydown', 'textarea', function(e) {
+      if (eval(setting.shortcut)) {
+        e.preventDefault();
+        setWSEvent($(this), setting);
+      }
+    });
+  }
 });
