@@ -1,42 +1,55 @@
+var setWSEvent = function ($textarea, setting) {
+  var ws = new WebSocket("ws://localhost:" + setting['port']);
+
+  ws.onopen = function() {
+    ws.send(JSON.stringify({
+      method: 'init',
+      text: $textarea.val(),
+      editor: setting['editor'],
+      options: setting['options']
+    }));
+  };
+
+  ws.onmessage = function(event) {
+    var data = JSON.parse(event.data);
+
+    switch(data.method) {
+    case 'inited':
+      ws.send(JSON.stringify({
+        method: 'watch',
+        tempfile: data.tempfile
+      }));
+      break;
+    case 'watched':
+      if (data.text !== undefined) {
+        $textarea.val(data.text);
+      }
+
+      setTimeout(function() {
+        ws.send(JSON.stringify({
+          method: 'watch',
+          tempfile: data.tempfile
+        }));
+      }, 1000);
+      break;
+    }
+  };
+};
+
+
 chrome.extension.sendRequest({
   method: "getSetting"
 }, function(response) {
   var setting = response.data;
 
   $('textarea').dblclick(function() {
-    $this = $(this);
-    var ws = new WebSocket("ws://localhost:" + setting['port']);
-    ws.onopen = function() {
-      ws.send(JSON.stringify({
-        method: 'init',
-        text: $this.val(),
-        editor: setting['editor'],
-        options: setting['options']
-      }));
-    };
-    ws.onmessage = function(event) {
-      var data = JSON.parse(event.data);
+    setWSEvent($(this), setting);
+  });
 
-      switch(data.method) {
-      case 'inited':
-        ws.send(JSON.stringify({
-          method: 'watch',
-          tempfile: data.tempfile
-        }));
-        break;
-      case 'watched':
-        if (data.text !== undefined) {
-          $this.val(data.text);
-        }
-
-        setTimeout(function() {
-          ws.send(JSON.stringify({
-            method: 'watch',
-            tempfile: data.tempfile
-          }));
-        }, 1000);
-        break;
-      }
-    };
+  $('textarea').on('keydown', function(e) {
+    if (eval(setting.shortcut)) {
+      e.preventDefault();
+      setWSEvent($(this), setting);
+    }
   });
 });
