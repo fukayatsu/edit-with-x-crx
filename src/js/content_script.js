@@ -25,7 +25,7 @@ chrome.extension.sendRequest({
         }));
         break;
       case 'watched':
-        if (data.text) {
+        if (data.text !== undefined) {
           $this.val(data.text);
         }
 
