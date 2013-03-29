@@ -44,6 +44,7 @@ EM.run {
           begin
             Process.detach(pid)
             Process.kill(:INT, pid)
+          rescue
           end
           ws.close
         end

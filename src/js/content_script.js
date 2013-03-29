@@ -2,16 +2,24 @@ var setWSEvent = function ($textarea, setting) {
   var ws = new WebSocket("ws://localhost:" + setting['port']);
 
   ws.onopen = function() {
-    ws.send(JSON.stringify({
+    var data = {
       method: 'init',
       text: $textarea.val(),
       editor: setting['editor'],
       options: setting['options']
-    }));
+    };
+
+    if (setting.debug) {
+      console.log(data);
+    }
+    ws.send(JSON.stringify(data));
   };
 
   ws.onmessage = function(event) {
     var data = JSON.parse(event.data);
+    if (setting.debug) {
+      console.log(data);
+    }
 
     switch(data.method) {
     case 'inited':
