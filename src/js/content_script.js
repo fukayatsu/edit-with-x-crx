@@ -52,13 +52,13 @@ chrome.extension.sendRequest({
   var setting = response.data;
 
   if (setting.double_click) {
-    $(document).on('dblclick', 'textarea', function() {
+    $(document).on('dblclick', 'textarea,[contenteditable=true]', function() {
       setWSEvent($(this), setting);
     });
   }
 
   if (setting.shortcut) {
-    $(document).on('keydown', 'textarea', function(e) {
+    $(document).on('keydown', 'textarea,[contenteditable=true]', function(e) {
       if (eval(setting.shortcut)) {
         e.preventDefault();
         setWSEvent($(this), setting);
