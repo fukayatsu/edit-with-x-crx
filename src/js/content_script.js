@@ -34,6 +34,7 @@ var setWSEvent = function ($textarea, setting) {
       }
 
       setTimeout(function() {
+        if (ws.readyState != ws.OPEN) { return; }
         ws.send(JSON.stringify({
           method: 'watch',
           tempfile: data.tempfile
