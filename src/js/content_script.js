@@ -1,10 +1,10 @@
-var setWSEvent = function ($textarea, setting) {
+var setWSEvent = function ($area, setting) {
   var ws = new WebSocket("ws://localhost:" + setting['port']);
 
   ws.onopen = function() {
     var data = {
       method: 'init',
-      text: $textarea.val(),
+      text: $area.is('textarea') ? $area.val() : $area.html().split('<br>').join(''),
       editor: setting['editor'],
       options: setting['options']
     };
@@ -30,7 +30,11 @@ var setWSEvent = function ($textarea, setting) {
       break;
     case 'watched':
       if (data.text !== undefined) {
-        $textarea.val(data.text);
+        if ($area.is('textarea')) {
+          $area.val(data.text);
+        } else {
+          $area.html('<div>' + data.text.split('\n').join('</div><div>') + '</div>');
+        }
       }
 
       setTimeout(function() {
