@@ -3,7 +3,7 @@ edit-with-x-crx
 
 Allow user to edit web-page textareas with any text editor
 
-(I'm using [Sublime Text 3](http://www.sublimetext.com/3) now.)
+(I'm using Mac and [Sublime Text 3](http://www.sublimetext.com/3) now.)
 
 ## Usage
 TODO
