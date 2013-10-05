@@ -2,13 +2,14 @@
    "manifest_version": 2,
    "name": "Edit with X",
    "version": "0.0.1",
-   "options_page": "options.html",
+   "options_page": "pages/options.html",
    "permissions": [
+      "tabs"
    ],
    "content_scripts": [{
       "matches": ["<all_urls>"],
       "js": [
-         "js/jquery-1.9.1.min.js",
+         "lib/jquery-2.0.3.min.js",
          "js/content_script.js"
       ]
    }],
@@ -18,11 +19,11 @@
       ]
    },
    "browser_action": {
-      "default_icon": "img/icon128.png",
+      "default_icon": "img/icon_128.png",
       "default_title": "Edit with X"
    },
    "icons": {
-      "128": "img/icon128.png",
-      "48": "img/icon48.png"
+      "128": "img/icon_128.png",
+      "48":  "img/icon_48.png"
    }
 }

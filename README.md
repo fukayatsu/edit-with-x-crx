@@ -1,2 +1,2 @@
-edit_with_x_crx
+edit-with-x-crx
 ===============

@@ -7,38 +7,40 @@ Encoding.default_external = "UTF-8"
 
 Process.daemon if ARGV[0] == "-d"
 
-pid = 0
-text = ""
-
 EM.run {
-  EM::WebSocket.run(:host => "0.0.0.0", :port => 51234) do |ws|
-    # ws.onopen { |handshake|
-    #   puts "WebSocket connection open"
-    # }
+  EM::WebSocket.run(host: "0.0.0.0", port: 51234) do |ws|
+    ws.onopen { |handshake|
+      # puts "WebSocket connection open"
+    }
 
-    # ws.onclose { puts "Connection closed" }
+    ws.onclose {
+      # puts "Connection closed"
+    }
 
     ws.onmessage { |msg|
       data = JSON.parse(msg)
 
       case data['method']
       when 'init'
-        temp = Tempfile.new(['editwith_', '.md'])
-        temp << data['text']
-        pid = spawn(data['editor'], *data['options'], temp.path)
-        ws.send({ method: 'inited', tempfile: temp.path }.to_json)
-        temp.close false
+        tempfile = Tempfile.new(['editwith_', data['ext'] || '.md'])
+        tempfile << data['text']
+        # run: "${editor} -w ${file}:${line}:${col}"
+        command = data['command'].split(' ').map { |arg|
+          arg.gsub('${editor}', data['editor'])
+          .gsub('${file}', tempfile.path)
+          .gsub('${line}', data['line'].to_s)
+          .gsub('${col}',  data['col'].to_s)
+        }
+        pid = spawn(*command)
+        ws.send({ method: 'inited', tempfile: tempfile.path, pid: pid }.to_json)
+        tempfile.close false
       when 'watch'
-        new_text = File.open(data['tempfile']).read
-        if (new_text == text)
-          ws.send({ method: 'watched', tempfile: data['tempfile']}.to_json)
-        else
-          text = new_text
-          ws.send({ method: 'watched', tempfile: data['tempfile'], text: text}.to_json)
-        end
+        tempfile = data['tempfile']
+        text = File.open(tempfile).read
+        pid  = data['pid']
+        ws.send({ method: 'watched', tempfile: tempfile, pid: pid, text: text}.to_json)
 
         begin
-        # プロセスの生存チェック
           Process.getpgid(pid)
         rescue
           begin

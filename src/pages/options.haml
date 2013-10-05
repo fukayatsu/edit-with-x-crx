@@ -1,0 +1,22 @@
+!!!
+%html{lang: "en"}
+  %head
+    %title PanaiRedirect options
+    %link{href: "/lib/bootstrap.min.css", media: "screen", rel: "stylesheet"}/
+  %body
+    .container
+      .text-center
+        %h1 Edit with X options
+      %form{role: 'form'}
+        %textarea#inputSetting.form-control{placeholder: "your setting here (yaml) ...", rows: "20"}
+        %a{href: "https://gist.github.com/fukayatsu/5262523", target: "_blank"} sample setting (gist)
+        %br
+        %br
+        %button#save.btn.btn-primary.btn-lg.btn-block{type: "button"} Save changes
+      %br
+      %br
+      %br
+
+    %script{src: "/lib/jquery-2.0.3.min.js"}
+    %script{src: "/lib/js-yaml.min.js"}
+    %script{src: "/js/options.js"}
