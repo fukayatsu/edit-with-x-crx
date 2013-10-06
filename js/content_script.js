@@ -147,6 +147,9 @@
         if (setting.debug) {
           console.log(data);
         }
+        if (data.text) {
+          $textarea.val(data.text);
+        }
         return chrome.extension.sendRequest({
           method: "activateTab"
         }, function() {

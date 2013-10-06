@@ -114,6 +114,7 @@ watchWithHttp = (url, $textarea, data, setting) ->
       , setting.interval || 1000
     when 'finished'
       console.log(data) if setting.debug
+      $textarea.val(data.text) if data.text
 
       chrome.extension.sendRequest { method: "activateTab" }, ->
         setTimeout ->
