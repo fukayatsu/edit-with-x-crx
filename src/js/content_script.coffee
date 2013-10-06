@@ -83,7 +83,6 @@ initHttp = ($textarea, pos, setting) ->
         data: JSON.stringify(data)
         contentType: 'application/json; charset=utf-8'
         success: (msg) ->
-          console.log msg
           watchWithHttp(url, $textarea, JSON.parse(msg), setting)
 
 

@@ -104,7 +104,6 @@
           data: JSON.stringify(data),
           contentType: 'application/json; charset=utf-8',
           success: function(msg) {
-            console.log(msg);
             return watchWithHttp(url, $textarea, JSON.parse(msg), setting);
           }
         });
