@@ -80,8 +80,10 @@ initHttp = ($textarea, pos, setting) ->
       $.ajax
         type: "POST"
         url:  "#{url}/init"
-        data: data
+        data: JSON.stringify(data)
+        contentType: 'application/json; charset=utf-8'
         success: (msg) ->
+          console.log msg
           watchWithHttp(url, $textarea, JSON.parse(msg), setting)
 
 
@@ -93,8 +95,9 @@ watchWithHttp = (url, $textarea, data, setting) ->
       data.method = 'watch'
       $.ajax
         type: 'POST'
+        data: JSON.stringify(data)
+        contentType: 'application/json; charset=utf-8'
         url:  "#{url}/watch"
-        data: data
         success: (msg) ->
           watchWithHttp(url, $textarea, JSON.parse(msg), setting)
     when 'watched'
@@ -108,7 +111,8 @@ watchWithHttp = (url, $textarea, data, setting) ->
         $.ajax
           type: 'POST'
           url: "#{url}/watch"
-          data: data
+          data: JSON.stringify(data)
+          contentType: 'application/json; charset=utf-8'
           success: (msg) ->
             watchWithHttp(url, $textarea, JSON.parse(msg), setting)
       , setting.interval || 1000

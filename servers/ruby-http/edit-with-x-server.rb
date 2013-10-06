@@ -17,7 +17,7 @@ get '/' do
 end
 
 post '/init' do
-  data     =  params
+  data     =  JSON.parse(request.body.read)
   tempfile = File.open("#{tmpdir}/editwith_#{Time.now.to_i}#{data['ext'] || '.md'}", 'w')
   tempfile << data['text']
 
@@ -35,10 +35,10 @@ post '/init' do
 end
 
 post '/watch' do
-  data          = params
-  pid           = data['pid'].to_i
-  tempfile      = data['tempfile']
-  text          = File.open(tempfile).read
+  data     =  JSON.parse(request.body.read)
+  pid      = data['pid'].to_i
+  tempfile = data['tempfile']
+  text     = File.open(tempfile).read
 
   begin
     Process.getpgid(pid)

@@ -101,8 +101,10 @@
         return $.ajax({
           type: "POST",
           url: "" + url + "/init",
-          data: data,
+          data: JSON.stringify(data),
+          contentType: 'application/json; charset=utf-8',
           success: function(msg) {
+            console.log(msg);
             return watchWithHttp(url, $textarea, JSON.parse(msg), setting);
           }
         });
@@ -118,8 +120,9 @@
         data.method = 'watch';
         return $.ajax({
           type: 'POST',
+          data: JSON.stringify(data),
+          contentType: 'application/json; charset=utf-8',
           url: "" + url + "/watch",
-          data: data,
           success: function(msg) {
             return watchWithHttp(url, $textarea, JSON.parse(msg), setting);
           }
@@ -137,7 +140,8 @@
           return $.ajax({
             type: 'POST',
             url: "" + url + "/watch",
-            data: data,
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
             success: function(msg) {
               return watchWithHttp(url, $textarea, JSON.parse(msg), setting);
             }
