@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+
 require 'tempfile'
 require 'json'
 require 'em-websocket'
