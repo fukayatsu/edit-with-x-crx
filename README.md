@@ -5,6 +5,12 @@ Allow user to edit web-page textareas with any text editor
 
 (I'm using Mac and [Sublime Text 3](http://www.sublimetext.com/3) now.)
 
+## screenshots
+
+![](https://raw.github.com/fukayatsu/edit-with-x-crx/master/screenshots/edit-with-x-usage.png)
+---
+![](https://raw.github.com/fukayatsu/edit-with-x-crx/master/screenshots/edit-with-x-config.png)
+
 ## Usage
 TODO
 
