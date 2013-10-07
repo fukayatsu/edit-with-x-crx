@@ -1,7 +1,7 @@
 Edit With X
 ===========
 
-Allow user to edit web-page on Chrome textareas with any text editor.
+Allow user to edit web-page textareas on Chrome with any text editor.
 
 (I'm using Mac 10.8.x and [Sublime Text 3](http://www.sublimetext.com/3) now.)
 
