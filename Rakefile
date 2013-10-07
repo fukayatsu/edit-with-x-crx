@@ -3,9 +3,9 @@ require 'json'
 
 manifest = JSON.parse(open('manifest.json').read)
 package_files = [
-  'img',
-  'js',
-  'pages',
+  'img/*',
+  'js/*',
+  'pages/*',
   'manifest.json'
 ]
 
