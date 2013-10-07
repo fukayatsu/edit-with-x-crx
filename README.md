@@ -1,18 +1,64 @@
-edit-with-x-crx
-===============
+Edit With X
+===========
 
-Allow user to edit web-page textareas with any text editor
+Allow user to edit web-page on Chrome textareas with any text editor.
 
-(I'm using Mac and [Sublime Text 3](http://www.sublimetext.com/3) now.)
+(I'm using Mac 10.8.x and [Sublime Text 3](http://www.sublimetext.com/3) now.)
 
-## screenshots
+## Screenshots
 
 ![](https://raw.github.com/fukayatsu/edit-with-x-crx/master/screenshots/edit-with-x-usage.png)
 ---
 ![](https://raw.github.com/fukayatsu/edit-with-x-crx/master/screenshots/edit-with-x-config.png)
 
-## Usage
-TODO
+## Servers
+Google Chrome can't open text editor directory. So you need a server.
+
+- Mac app (using HTTP)
+    - [EditWithX-0.0.1.zip](https://github.com/fukayatsu/edit-with-x-crx/blob/master/servers/mac-http/build/EditWithX-0.0.1.zip?raw=true) (written in macruby)
+- Ruby (using HTTP)
+    - [servers/ruby-http](https://github.com/fukayatsu/edit-with-x-crx/tree/master/servers/ruby-http)
+- Ruby (using WebSocket)
+    - [servers/ruby-ws](https://github.com/fukayatsu/edit-with-x-crx/tree/master/servers/ruby-ws)
+
+## Configuration
+
+```yml
+# protocol (http or ws)
+# protocol: ws # web WebSocket
+protocol: http # use HTTP
+
+# port (default 51234)
+port: 51234
+
+# editor path
+# editor: "gvim" # gvim (not tested)
+# editor: "/Applications/MacVim.app/Contents/MacOS/mvim" # macvim
+editor: "/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl"
+
+# open file command
+# command: "${editor} -f +${line} ${file}"        # for vim
+command: "${editor} -w ${file}:${line}:${col}" # for sublime text
+
+# tempfile extension (default: '.md')
+# ext: '.txt'
+ext: '.md'
+
+# open editor with shortcut key in textarea (default: false)
+shortcut: e.metaKey && e.keyCode == 73   #  this is "cmd + i" # `e` is JS event
+
+# open editor with double-click in textarea (dafault: false)
+# double_click: true
+
+# output log message via console.log (default: false)
+# debug: true
+
+# reflesh interval in ms (default: 1000)
+# interval: 3000
+
+# change textarea color while editing
+color: '#4169e1'
+```
 
 ## Contributing
 
