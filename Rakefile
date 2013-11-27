@@ -5,6 +5,7 @@ manifest = JSON.parse(open('manifest.json').read)
 package_files = [
   'img/*',
   'js/*',
+  'lib/*',
   'pages/*',
   'manifest.json'
 ]
